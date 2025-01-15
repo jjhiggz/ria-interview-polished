@@ -47,8 +47,10 @@ function RouteComponent() {
   const { query } = useParams({ from: "/query/$query" });
 
   return (
-    <div className="flex flex-col items-center gap-10 bg-blue-300 h-full">
-      <h1>{query}</h1>
+    <div className="flex flex-col flex-1 items-center gap-10 bg-blue-300">
+      <h1 className="drop-shadow-lg mt-8 font-bold text-4xl text-white capitalize tracking-wide">
+        {query.split(",")[0]}
+      </h1>
       <HourlyForecast />
       <DailyForecast />
     </div>
