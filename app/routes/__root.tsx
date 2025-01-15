@@ -9,7 +9,16 @@ import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
 import { useState } from "react";
-import { BiBarChart, BiBattery, BiHome, BiSearch } from "react-icons/bi";
+import {
+  BiBarChart,
+  BiBattery,
+  BiHome,
+  BiSearch,
+  BiSolidBattery,
+  BiSolidBatteryCharging,
+  BiSolidBatteryFull,
+  BiSolidBatteryLow,
+} from "react-icons/bi";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
 import { NotFound } from "~/components/NotFound";
 import appCss from "~/styles/app.css?url";
@@ -64,18 +73,32 @@ export const Route = createRootRoute({
   notFoundComponent: () => <NotFound />,
   component: RootComponent,
 });
+const icons = [
+  <BiBattery className="w-5 h-5 text-red-200" />,
+  <BiSolidBatteryLow className="w-5 h-5 text-yellow-200" />,
+  <BiBattery className="w-5 h-5 text-green-200" />,
+];
 
 function RootComponent() {
   const [searchInput, setSearchInput] = useState("");
   const navigate = useNavigate();
 
+  const [currentIconIndex, setCurrentIconIndex] = useState(0);
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentIconIndex((prevIndex) => (prevIndex + 1) % icons.length);
+    }, 1500);
+
+    return () => clearInterval(intervalId);
+  }, []);
   return (
     <RootDocument>
       <div className="flex flex-col bg-red-100 h-screen">
         <header className="flex flex-col w-full">
           <div className="flex justify-end bg-gray-900 px-4 py-1 text-white">
             <div className="flex items-center gap-2 text-sm">
-              <BiBattery className="w-5 h-5" />
+              {icons[currentIconIndex]}
               <BiBarChart className="w-5 h-5" />
             </div>
           </div>
