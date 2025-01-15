@@ -54,6 +54,17 @@ function RouteComponent() {
       >
         Submit
       </button>
+      <p className="text-gray-600 text-sm">
+        For more info on how to get your API key, please visit{" "}
+        <a
+          href="http://api.openweathermap.org"
+          className="text-blue-500 hover:underline"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          OpenWeatherMap
+        </a>
+      </p>
     </form>
   );
 }
