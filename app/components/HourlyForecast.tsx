@@ -1,6 +1,6 @@
 import { useLoaderData } from "@tanstack/react-router";
 import { match } from "ts-pattern";
-import { formatTemp, kelvinToFarenheight } from "~/utils/temperature";
+import { formatTemp } from "~/utils/temperature";
 import dayjs from "dayjs";
 import { getDayPeriodIcon } from "~/utils/time";
 import { BiMoon, BiSun } from "react-icons/bi";

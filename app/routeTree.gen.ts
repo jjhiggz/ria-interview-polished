@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as NoApiKeyImport } from './routes/no-api-key'
 import { Route as IndexImport } from './routes/index'
 import { Route as QueryQueryImport } from './routes/query.$query'
 
 // Create/Update Routes
+
+const NoApiKeyRoute = NoApiKeyImport.update({
+  id: '/no-api-key',
+  path: '/no-api-key',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -39,6 +46,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/no-api-key': {
+      id: '/no-api-key'
+      path: '/no-api-key'
+      fullPath: '/no-api-key'
+      preLoaderRoute: typeof NoApiKeyImport
+      parentRoute: typeof rootRoute
+    }
     '/query/$query': {
       id: '/query/$query'
       path: '/query/$query'
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/no-api-key': typeof NoApiKeyRoute
   '/query/$query': typeof QueryQueryRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/no-api-key': typeof NoApiKeyRoute
   '/query/$query': typeof QueryQueryRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/no-api-key': typeof NoApiKeyRoute
   '/query/$query': typeof QueryQueryRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/query/$query'
+  fullPaths: '/' | '/no-api-key' | '/query/$query'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/query/$query'
-  id: '__root__' | '/' | '/query/$query'
+  to: '/' | '/no-api-key' | '/query/$query'
+  id: '__root__' | '/' | '/no-api-key' | '/query/$query'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  NoApiKeyRoute: typeof NoApiKeyRoute
   QueryQueryRoute: typeof QueryQueryRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  NoApiKeyRoute: NoApiKeyRoute,
   QueryQueryRoute: QueryQueryRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/no-api-key",
         "/query/$query"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/no-api-key": {
+      "filePath": "no-api-key.tsx"
     },
     "/query/$query": {
       "filePath": "query.$query.tsx"
