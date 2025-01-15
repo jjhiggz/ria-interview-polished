@@ -12,7 +12,7 @@ export const latLongResponseSchema = z.object({
 });
 export type LatLongResponse = z.infer<typeof latLongResponseSchema>;
 
-const baseUrl = "https://api.openweathermap.org";
+const baseUrl = "http://api.openweathermap.org";
 
 const limit = 10;
 const parseWithBetterMessage =
