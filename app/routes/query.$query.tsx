@@ -5,7 +5,6 @@ import {
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import { getCityData } from "data-calls";
-import { CityDVataResponse } from "types";
 import { z } from "zod";
 import { DailyForecast } from "~/components/DailyForecast";
 import { HourlyForecast } from "~/components/HourlyForecast";
@@ -19,7 +18,7 @@ const $getData = createServerFn()
       .parse(params);
   })
   .handler(async ({ data }) => {
-    return (await getCityData(data.query)) as CityDVataResponse;
+    return await getCityData(data.query);
   });
 
 export const Route = createFileRoute("/query/$query")({

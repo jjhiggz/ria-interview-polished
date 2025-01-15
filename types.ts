@@ -1,102 +1,95 @@
-export interface CityDataResponse {
-  lat: number;
-  lon: number;
-  timezone: string;
-  timezone_offset: number;
-  current: Current;
-  minutely: Minutely[];
-  hourly: Current[];
-  daily: Daily[];
-}
+import { z } from "zod";
 
-export interface Current {
-  dt: number;
-  sunrise?: number;
-  sunset?: number;
-  temp: number;
-  feels_like: number;
-  pressure: number;
-  humidity: number;
-  dew_point: number;
-  uvi: number;
-  clouds: number;
-  visibility: number;
-  wind_speed: number;
-  wind_deg: number;
-  weather: Weather[];
-  wind_gust?: number;
-  pop?: number;
-}
+export const weatherSchema = z.object({
+  id: z.number(),
+  main: z.enum(["Clear", "Clouds"]),
+  description: z.enum([
+    "broken clouds",
+    "clear sky",
+    "few clouds",
+    "overcast clouds",
+    "scattered clouds",
+  ]),
+  icon: z.enum(["01d", "01n", "02n", "03d", "03n", "04d", "04n"]),
+});
 
-export interface Weather {
-  id: number;
-  main: Main;
-  description: Description;
-  icon: Icon;
-}
+export const tempSchema = z.object({
+  day: z.number(),
+  min: z.number(),
+  max: z.number(),
+  night: z.number(),
+  eve: z.number(),
+  morn: z.number(),
+});
 
-export enum Description {
-  BrokenClouds = "broken clouds",
-  ClearSky = "clear sky",
-  FewClouds = "few clouds",
-  OvercastClouds = "overcast clouds",
-  ScatteredClouds = "scattered clouds",
-}
+export const feelsLikeSchema = z.object({
+  day: z.number(),
+  night: z.number(),
+  eve: z.number(),
+  morn: z.number(),
+});
 
-export enum Icon {
-  The01D = "01d",
-  The01N = "01n",
-  The02N = "02n",
-  The03D = "03d",
-  The03N = "03n",
-  The04D = "04d",
-  The04N = "04n",
-}
+export const currentSchema = z.object({
+  dt: z.number(),
+  sunrise: z.number().optional(),
+  sunset: z.number().optional(),
+  temp: z.number(),
+  feels_like: z.number(),
+  pressure: z.number(),
+  humidity: z.number(),
+  dew_point: z.number(),
+  uvi: z.number(),
+  clouds: z.number(),
+  visibility: z.number(),
+  wind_speed: z.number(),
+  wind_deg: z.number(),
+  weather: z.array(weatherSchema),
+  wind_gust: z.number().optional(),
+  pop: z.number().optional(),
+});
 
-export enum Main {
-  Clear = "Clear",
-  Clouds = "Clouds",
-}
+export const dailySchema = z.object({
+  dt: z.number(),
+  sunrise: z.number(),
+  sunset: z.number(),
+  moonrise: z.number(),
+  moonset: z.number(),
+  moon_phase: z.number(),
+  summary: z.string(),
+  temp: tempSchema,
+  feels_like: feelsLikeSchema,
+  pressure: z.number(),
+  humidity: z.number(),
+  dew_point: z.number(),
+  wind_speed: z.number(),
+  wind_deg: z.number(),
+  wind_gust: z.number(),
+  weather: z.array(weatherSchema),
+  clouds: z.number(),
+  pop: z.number(),
+  uvi: z.number(),
+});
 
-export interface Daily {
-  dt: number;
-  sunrise: number;
-  sunset: number;
-  moonrise: number;
-  moonset: number;
-  moon_phase: number;
-  summary: string;
-  temp: Temp;
-  feels_like: FeelsLike;
-  pressure: number;
-  humidity: number;
-  dew_point: number;
-  wind_speed: number;
-  wind_deg: number;
-  wind_gust: number;
-  weather: Weather[];
-  clouds: number;
-  pop: number;
-  uvi: number;
-}
+export const minutelySchema = z.object({
+  dt: z.number(),
+  precipitation: z.number(),
+});
 
-export interface FeelsLike {
-  day: number;
-  night: number;
-  eve: number;
-  morn: number;
-}
+export const cityDataResponseSchema = z.object({
+  lat: z.number(),
+  lon: z.number(),
+  timezone: z.string(),
+  timezone_offset: z.number(),
+  current: currentSchema,
+  minutely: z.array(minutelySchema),
+  hourly: z.array(currentSchema),
+  daily: z.array(dailySchema),
+});
 
-export interface Temp {
-  day: number;
-  min: number;
-  max: number;
-  night: number;
-  eve: number;
-  morn: number;
-}
-
-export interface Minutely {
-  dt: number;
-  precipitation: number;
-}
+export type Weather = z.infer<typeof weatherSchema>;
+export type Temp = z.infer<typeof tempSchema>;
+export type FeelsLike = z.infer<typeof feelsLikeSchema>;
+export type Current = z.infer<typeof currentSchema>;
+export type Daily = z.infer<typeof dailySchema>;
+export type Minutely = z.infer<typeof minutelySchema>;
+export type CityDataResponse = z.infer<typeof cityDataResponseSchema>;
