@@ -1,5 +1,4 @@
-import { writeFileSync } from "fs";
-import { CityDataResponse } from "types";
+import { CityDataResponse, cityDataResponseSchema } from "types";
 import { z } from "zod";
 
 const API_KEY = process.env.WEATHER_API_KEY;
@@ -39,7 +38,9 @@ export const getCityData = async (
 
   return fetch(
     `${baseUrl}/data/3.0/onecall?lat=${city.lat}&lon=${city.lon}&appid=${API_KEY}`
-  ).then((response) => response.json());
+  )
+    .then((response) => response.json())
+    .then((data) => cityDataResponseSchema.parse(data));
 };
 
 getCityData("Northglenn").then(console.log);
