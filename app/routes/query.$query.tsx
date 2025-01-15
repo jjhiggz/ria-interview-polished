@@ -1,6 +1,7 @@
 import {
   createFileRoute,
-  useLoaderData,
+  redirect,
+  useNavigate,
   useParams,
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
@@ -8,6 +9,7 @@ import { z } from "zod";
 import { DailyForecast } from "~/components/DailyForecast";
 import { HourlyForecast } from "~/components/HourlyForecast";
 import { getCityData } from "~/data-calls";
+import { deleteApiKey, getApiKey } from "~/utils/weather-api-key";
 
 const $getData = createServerFn()
   .validator((params: { query: string }) => {
@@ -18,21 +20,47 @@ const $getData = createServerFn()
       .parse(params);
   })
   .handler(async ({ data }) => {
-    return await getCityData(data.query);
+    return await getCityData({ query: data.query, apiKey: "" });
   });
 
 export const Route = createFileRoute("/query/$query")({
   errorComponent: () => {
+    const navigate = useNavigate();
+    const params = useParams({ from: "/query/$query" });
     return (
-      <div className="flex justify-center items-center min-h-screen">
+      <div className="flex flex-col justify-center items-center gap-4 min-h-screen">
         <div className="text-gray-600 text-xl">
           Cannot find any weather data for that search query
+        </div>
+        <div className="text-gray-600">
+          If you think that your api key may be wrong please{" "}
+          <button
+            onClick={() => {
+              deleteApiKey();
+              navigate({
+                to: "/no-api-key",
+                search: { redirectTo: `/query/${params.query}` },
+              });
+            }}
+            className="text-blue-500 hover:underline"
+          >
+            reset it here
+          </button>
         </div>
       </div>
     );
   },
   component: RouteComponent,
   loader: async ({ params }) => {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      throw redirect({
+        to: "/no-api-key",
+        search: {
+          redirectTo: `/query/${params.query}`,
+        },
+      });
+    }
     return await $getData({
       data: {
         query: params.query,
@@ -42,8 +70,6 @@ export const Route = createFileRoute("/query/$query")({
 });
 
 function RouteComponent() {
-  const weatherData = useLoaderData({ from: "/query/$query" });
-  //
   const { query } = useParams({ from: "/query/$query" });
 
   return (
