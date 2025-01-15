@@ -4,10 +4,10 @@ import {
   useParams,
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
-import { getCityData } from "data-calls";
 import { z } from "zod";
 import { DailyForecast } from "~/components/DailyForecast";
 import { HourlyForecast } from "~/components/HourlyForecast";
+import { getCityData } from "~/data-calls";
 
 const $getData = createServerFn()
   .validator((params: { query: string }) => {
