@@ -1,7 +1,7 @@
 import { CityDataResponse, cityDataResponseSchema } from "types";
 import { z, ZodSchema } from "zod";
 
-const API_KEY = process.env.WEATHER_API_KEY;
+const API_KEY = z.string().min(5).parse(process.env.WEATHER_API_KEY);
 
 export const latLongResponseSchema = z.object({
   name: z.string(),
@@ -30,7 +30,6 @@ const parseWithBetterMessage =
   };
 
 const getLatAndLong = (query: string) => {
-  console.log({ API_KEY });
   return fetch(
     `${baseUrl}/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`
     // `http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API_KEY}`
