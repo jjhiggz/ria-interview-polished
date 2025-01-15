@@ -71,7 +71,7 @@ function RootComponent() {
 
   return (
     <RootDocument>
-      <div className="flex flex-col bg-red-300 h-screen">
+      <div className="flex flex-col bg-red-100 h-screen">
         <header className="flex flex-col w-full">
           <div className="flex justify-end bg-gray-900 px-4 py-1 text-white">
             <div className="flex items-center gap-2 text-sm">
@@ -141,7 +141,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </head>
       <body>
-        <hr />
         {children}
         <ScrollRestoration />
         <TanStackRouterDevtools position="bottom-right" />

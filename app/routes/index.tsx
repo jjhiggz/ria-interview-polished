@@ -9,7 +9,7 @@ function RouteComponent() {
   const [input, setInput] = useState("");
   const navigate = useNavigate({ from: "/" });
   return (
-    <div className="flex flex-col justify-center items-center bg-gradient-to-b from-blue-400 to-blue-600 min-h-screen">
+    <div className="flex flex-col flex-1 justify-center items-center bg-gradient-to-b from-blue-400 to-blue-600">
       <div className="bg-white/80 shadow-lg backdrop-blur-sm p-8 rounded-lg w-11/12 max-w-md">
         <h1 className="mb-6 font-bold text-3xl text-center text-gray-800">
           Weather Forecast
