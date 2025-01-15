@@ -30,6 +30,7 @@ const parseWithBetterMessage =
   };
 
 const getLatAndLong = (query: string) => {
+  console.log({ API_KEY });
   return fetch(
     `${baseUrl}/geo/1.0/direct?q=${query}&limit=${limit}&appid=${API_KEY}`
     // `http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API_KEY}`
