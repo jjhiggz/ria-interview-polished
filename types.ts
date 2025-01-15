@@ -2,15 +2,13 @@ import { z } from "zod";
 
 export const weatherSchema = z.object({
   id: z.number(),
-  main: z.enum(["Clear", "Clouds"]),
-  description: z.enum([
-    "broken clouds",
-    "clear sky",
-    "few clouds",
-    "overcast clouds",
-    "scattered clouds",
-  ]),
-  icon: z.enum(["01d", "01n", "02n", "03d", "03n", "04d", "04n"]),
+
+  main: z.string().describe("EX.. Clouds, Clear"),
+  description: z
+    .string()
+    .describe(
+      "EX.. broken clouds, clear sky, few clouds, overcast clouds, scattered clouds"
+    ),
 });
 
 export const tempSchema = z.object({
