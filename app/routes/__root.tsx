@@ -1,3 +1,4 @@
+import toast, { Toaster } from "react-hot-toast";
 import {
   Link,
   Outlet,
@@ -5,6 +6,7 @@ import {
   createRootRoute,
   useNavigate,
 } from "@tanstack/react-router";
+import { Tooltip } from "react-tooltip";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 import { Meta, Scripts } from "@tanstack/start";
 import * as React from "react";
@@ -14,9 +16,6 @@ import {
   BiBattery,
   BiHome,
   BiSearch,
-  BiSolidBattery,
-  BiSolidBatteryCharging,
-  BiSolidBatteryFull,
   BiSolidBatteryLow,
 } from "react-icons/bi";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
@@ -74,9 +73,24 @@ export const Route = createRootRoute({
   component: RootComponent,
 });
 const icons = [
-  <BiBattery className="w-5 h-5 text-red-200" />,
-  <BiSolidBatteryLow className="w-5 h-5 text-yellow-200" />,
-  <BiBattery className="w-5 h-5 text-green-200" />,
+  <div
+    data-tooltip-id="my-tooltip"
+    data-tooltip-content="Why are you hovering over me I'm just a low battery on a web app, this doesn't mean anything"
+  >
+    <BiBattery className="w-5 h-5 text-red-200" />
+  </div>,
+  <div
+    data-tooltip-id="my-tooltip"
+    data-tooltip-content="Why are you hovering over me I'm just a medium battery on a web app, this doesn't mean anything"
+  >
+    <BiSolidBatteryLow className="w-5 h-5 text-yellow-200" />
+  </div>,
+  <div
+    data-tooltip-id="my-tooltip"
+    data-tooltip-content="Why are you hovering over me I'm just a full battery on a web app, this doesn't mean anything"
+  >
+    <BiBattery className="w-5 h-5 text-green-200" />
+  </div>,
 ];
 
 function RootComponent() {
@@ -92,6 +106,7 @@ function RootComponent() {
 
     return () => clearInterval(intervalId);
   }, []);
+
   return (
     <RootDocument>
       <div className="flex flex-col bg-red-100 h-screen">
@@ -119,6 +134,9 @@ function RootComponent() {
                 className="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full"
                 onSubmit={(e) => {
                   e.preventDefault();
+                  if (!searchInput || searchInput.length === 0) {
+                    return toast.error("Please make a query before submitting");
+                  }
                   navigate({
                     to: "/query/$query",
                     params: {
@@ -136,15 +154,14 @@ function RootComponent() {
                     setSearchInput(e.target.value);
                   }}
                 />
-                <Link
-                  to="/query/$query"
-                  params={{
-                    query: searchInput,
-                  }}
+                <button
+                  type="submit"
                   className="text-white hover:text-white/80 transition-colors"
+                  data-tooltip-id="search-tooltip"
+                  data-tooltip-content="Search for weather in a city or state"
                 >
                   <BiSearch className="w-5 h-5" />
-                </Link>
+                </button>
               </form>
             </div>
           </div>
@@ -164,6 +181,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <Meta />
       </head>
       <body>
+        <Toaster
+          position="bottom-center"
+          toastOptions={{
+            duration: 1000,
+          }}
+        />
+        <Tooltip delayShow={100} />
         {children}
         <ScrollRestoration />
         <TanStackRouterDevtools position="bottom-right" />

@@ -3,6 +3,7 @@ import {
   redirect,
   useNavigate,
   useParams,
+  useRouter,
 } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
 import { z } from "zod";
@@ -71,6 +72,7 @@ export const Route = createFileRoute("/query/$query")({
 
 function RouteComponent() {
   const { query } = useParams({ from: "/query/$query" });
+  const router = useRouter();
 
   return (
     <div className="flex flex-col flex-1 items-center gap-10 bg-blue-300">
@@ -79,6 +81,12 @@ function RouteComponent() {
       </h1>
       <HourlyForecast />
       <DailyForecast />
+      <button
+        onClick={() => router.invalidate()}
+        className="bg-blue-500 hover:bg-blue-600 mb-8 px-4 py-2 rounded-md font-semibold text-white transition-colors"
+      >
+        Refresh Data
+      </button>
     </div>
   );
 }

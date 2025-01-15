@@ -1,5 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
@@ -18,6 +19,9 @@ function RouteComponent() {
           className="flex flex-col gap-4"
           onSubmit={(e) => {
             e.preventDefault();
+            if (!input || input.length === 0) {
+              return toast.error("Please make a query before submitting");
+            }
             navigate({
               to: "/query/$query",
               params: {
