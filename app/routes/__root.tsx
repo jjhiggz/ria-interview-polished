@@ -79,7 +79,7 @@ function RootComponent() {
             <BiBarChart />
           </div>
         </div>
-        <div className="flex justify-between items-center px-4 p-3 text-white">
+        <div className="flex justify-between items-center px-4 p-3 font-mono text-white">
           <h1>Simple Weather</h1>
           <form
             className="flex items-center"
