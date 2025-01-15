@@ -1,8 +1,6 @@
-import { config } from "dotenv";
 import { writeFileSync } from "fs";
 import { CityDataResponse } from "types";
 import { z } from "zod";
-config();
 
 const API_KEY = process.env.WEATHER_API_KEY;
 

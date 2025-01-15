@@ -1,4 +1,4 @@
-export interface CityDVataResponse {
+export interface CityDataResponse {
   lat: number;
   lon: number;
   timezone: string;

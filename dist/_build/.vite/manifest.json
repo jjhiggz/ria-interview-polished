@@ -1,0 +1,45 @@
+{
+  "/Users/jonathanhigger/tanstack-start-ria/app/styles/app.css": {
+    "file": "assets/app-CB8JjYsI.css",
+    "src": "/Users/jonathanhigger/tanstack-start-ria/app/styles/app.css"
+  },
+  "_client-Bfrj2aVM.js": {
+    "file": "assets/client-Bfrj2aVM.js",
+    "name": "client",
+    "dynamicImports": [
+      "app/routes/index.tsx?tsr-split",
+      "app/routes/query.$query.tsx?tsr-split",
+      "app/routes/query.$query.tsx?tsr-split"
+    ],
+    "assets": [
+      "assets/app-CB8JjYsI.css"
+    ]
+  },
+  "app/routes/index.tsx?tsr-split": {
+    "file": "assets/index-moTMGqg7.js",
+    "name": "index",
+    "src": "app/routes/index.tsx?tsr-split",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-Bfrj2aVM.js"
+    ]
+  },
+  "app/routes/query.$query.tsx?tsr-split": {
+    "file": "assets/query._query-tM1-i77q.js",
+    "name": "query._query",
+    "src": "app/routes/query.$query.tsx?tsr-split",
+    "isDynamicEntry": true,
+    "imports": [
+      "_client-Bfrj2aVM.js"
+    ]
+  },
+  "virtual:$vinxi/handler/client": {
+    "file": "assets/client-mdgaqACo.js",
+    "name": "client",
+    "src": "virtual:$vinxi/handler/client",
+    "isEntry": true,
+    "imports": [
+      "_client-Bfrj2aVM.js"
+    ]
+  }
+}

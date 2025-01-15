@@ -1,0 +1,16 @@
+{
+  "date": "2025-01-15T01:03:51.637Z",
+  "preset": "cloudflare-pages",
+  "framework": {
+    "name": "nitro",
+    "version": ""
+  },
+  "versions": {
+    "nitro": "2.10.4"
+  },
+  "commands": {
+    "preview": "npx wrangler pages dev ./",
+    "deploy": "npx wrangler pages deploy ./"
+  },
+  "config": {}
+}
