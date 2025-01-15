@@ -58,3 +58,5 @@ export const getCityData = async (
     .then((response) => response.json())
     .then((data) => cityDataResponseSchema.parse(data));
 };
+
+// dummy
