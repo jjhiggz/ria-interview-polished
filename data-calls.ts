@@ -1,5 +1,5 @@
 import { CityDataResponse, cityDataResponseSchema } from "types";
-import { z } from "zod";
+import { z, ZodSchema } from "zod";
 
 const API_KEY = process.env.WEATHER_API_KEY;
 
@@ -15,6 +15,19 @@ export type LatLongResponse = z.infer<typeof latLongResponseSchema>;
 const baseUrl = "http://api.openweathermap.org";
 
 const limit = 10;
+const parseWithBetterMessage =
+  <Schema extends ZodSchema>(tag: string, schema: Schema) =>
+  (input: any) => {
+    const data = schema.safeParse(input);
+    if (!data.success) {
+      console.error(`Error parsing ${tag}`);
+      console.error(input);
+      console.error("Is Not valid, here is your error message");
+      throw data.error;
+    }
+
+    return data.data as z.infer<Schema>;
+  };
 
 const getLatAndLong = (query: string) => {
   return fetch(
@@ -22,7 +35,10 @@ const getLatAndLong = (query: string) => {
     // `http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${API_KEY}`
   )
     .then((response) => response.json())
-    .then(z.array(latLongResponseSchema).parse);
+    .then(
+      parseWithBetterMessage("latLongResponse", z.array(latLongResponseSchema))
+    )
+    .then((result) => result);
 };
 
 export const getCityData = async (
@@ -42,5 +58,3 @@ export const getCityData = async (
     .then((response) => response.json())
     .then((data) => cityDataResponseSchema.parse(data));
 };
-
-getCityData("Northglenn").then(console.log);
