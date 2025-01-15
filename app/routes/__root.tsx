@@ -16,6 +16,7 @@ import {
   BiBattery,
   BiHome,
   BiSearch,
+  BiSolidBattery,
   BiSolidBatteryLow,
 } from "react-icons/bi";
 import { DefaultCatchBoundary } from "~/components/DefaultCatchBoundary";
@@ -74,22 +75,22 @@ export const Route = createRootRoute({
 });
 const icons = [
   <div
-    data-tooltip-id="my-tooltip"
-    data-tooltip-content="Why are you hovering over me I'm just a low battery on a web app, this doesn't mean anything"
+    data-tooltip-id="battery-tooltip"
+    data-tooltip-content="Beep boop... running low! Send help!"
   >
     <BiBattery className="w-5 h-5 text-red-200" />
   </div>,
   <div
-    data-tooltip-id="my-tooltip"
-    data-tooltip-content="Why are you hovering over me I'm just a medium battery on a web app, this doesn't mean anything"
+    data-tooltip-id="battery-tooltip"
+    data-tooltip-content="Half full or half empty? Philosopher battery!"
   >
     <BiSolidBatteryLow className="w-5 h-5 text-yellow-200" />
   </div>,
   <div
-    data-tooltip-id="my-tooltip"
-    data-tooltip-content="Why are you hovering over me I'm just a full battery on a web app, this doesn't mean anything"
+    data-tooltip-id="battery-tooltip"
+    data-tooltip-content="Fully charged and ready to party!"
   >
-    <BiBattery className="w-5 h-5 text-green-200" />
+    <BiSolidBattery className="w-5 h-5 text-green-200" />
   </div>,
 ];
 
@@ -102,7 +103,7 @@ function RootComponent() {
   React.useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentIconIndex((prevIndex) => (prevIndex + 1) % icons.length);
-    }, 1500);
+    }, 2500);
 
     return () => clearInterval(intervalId);
   }, []);
@@ -113,6 +114,7 @@ function RootComponent() {
         <header className="flex flex-col w-full">
           <div className="flex justify-end bg-gray-900 px-4 py-1 text-white">
             <div className="flex items-center gap-2 text-sm">
+              <Tooltip id="battery-tooltip" />
               {icons[currentIconIndex]}
               <BiBarChart className="w-5 h-5" />
             </div>
@@ -157,8 +159,6 @@ function RootComponent() {
                 <button
                   type="submit"
                   className="text-white hover:text-white/80 transition-colors"
-                  data-tooltip-id="search-tooltip"
-                  data-tooltip-content="Search for weather in a city or state"
                 >
                   <BiSearch className="w-5 h-5" />
                 </button>
@@ -187,7 +187,6 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             duration: 1000,
           }}
         />
-        <Tooltip delayShow={100} />
         {children}
         <ScrollRestoration />
         <TanStackRouterDevtools position="bottom-right" />
