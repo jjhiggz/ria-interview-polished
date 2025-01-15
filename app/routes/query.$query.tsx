@@ -28,7 +28,7 @@ export const Route = createFileRoute("/query/$query")({
     const navigate = useNavigate();
     const params = useParams({ from: "/query/$query" });
     return (
-      <div className="flex flex-col justify-center items-center gap-4 min-h-screen">
+      <div className="flex flex-col flex-1 justify-center items-center gap-4">
         <div className="text-gray-600 text-xl">
           Cannot find any weather data for that search query
         </div>
